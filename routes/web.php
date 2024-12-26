@@ -5,6 +5,7 @@ use App\Http\Controllers\ChirpController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use App\Http\Controllers\ProductController;
 
 Route::get('/', function () {                       //เมื่อผู้ใช้ไปที่หน้าแรกระบบจะส่งข้อมูลไปยังหน้า Welcome พร้อมข้อมูลต่างๆ//
     return Inertia::render('Welcome', [
@@ -18,6 +19,9 @@ Route::get('/', function () {                       //เมื่อผู้�
 Route::get('/dashboard', function () {  //เมื่อผู้ใช้ไปที่หน้าdashระบบจะส่งข้อมูลไปยังหน้า Dashboard ผ่าน Inertia//
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard'); //สำหรับสร้างลิงก์ไปยังหน้าแดชบอร์ด//
+
+Route::get('/products', [ProductController::class, 'index'])->middleware(['auth', 'verified'])->name('products.index');
+Route::get('/products/{id}', [ProductController::class, 'show'])->middleware(['auth', 'verified']); 
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');  //แก้ไขโปร//
